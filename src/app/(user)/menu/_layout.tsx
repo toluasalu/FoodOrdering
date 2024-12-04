@@ -14,7 +14,7 @@ export default function MenuStack() {
                     {({ pressed }) => (
                         <FontAwesome
                             name="shopping-cart"
-                            size={20}
+                            size={25}
                             color={Colors.light.tint}
                             style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                         />
