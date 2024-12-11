@@ -1,10 +1,12 @@
 
-import { View, Text, FlatList } from 'react-native'
+import { View, Text, FlatList, Pressable } from 'react-native'
 import orders from '@assets/data/orders'
 import React from 'react'
 import { Stack, useLocalSearchParams } from 'expo-router'
 import OrderListItem from '@/components/OrderListItem'
 import OrderItemListItem from '@/components/OrderItemListItem'
+import Colors from '@/constants/Colors'
+import { OrderStatusList } from '@/types'
 
 const OrderDetails = () => {
     const { id } = useLocalSearchParams();
@@ -18,13 +20,46 @@ const OrderDetails = () => {
     return (
         <View style={{ padding: 10, gap: 20, flex: 1 }}>
             <Stack.Screen options={{ title: `Order #${id}` }} />
-
             <FlatList
                 data={order.order_items}
                 contentContainerStyle={{ gap: 10 }}
                 renderItem={({ item }) => <OrderItemListItem item={item} />}
                 ListHeaderComponent={() => <OrderListItem order={order} />}
+                ListFooterComponent={() => <>
+                    <Text style={{ fontWeight: 'bold' }}>Status</Text>
+                    <View style={{ flexDirection: 'row', gap: 5 }}>
+                        {OrderStatusList.map((status) => (
+                            <Pressable
+                                key={status}
+                                onPress={() => console.warn('Update status')}
+                                style={{
+                                    borderColor: Colors.light.tint,
+                                    borderWidth: 1,
+                                    padding: 10,
+                                    borderRadius: 5,
+                                    marginVertical: 10,
+                                    backgroundColor:
+                                        order.status === status
+                                            ? Colors.light.tint
+                                            : 'transparent',
+                                }}
+                            >
+                                <Text
+                                    style={{
+                                        color:
+                                            order.status === status ? 'white' : Colors.light.tint,
+                                    }}
+                                >
+                                    {status}
+                                </Text>
+                            </Pressable>
+                        ))}
+                    </View>
+                </>
+                }
             />
+
+
         </View>
     )
 }
