@@ -1,8 +1,9 @@
-import { View, Text, StyleSheet, TextInput } from 'react-native'
+import { View, Text, StyleSheet, TextInput, Alert } from 'react-native'
 import React, { useState } from 'react'
 import Colors from '@/constants/Colors';
 import Button from '@/components/Button';
 import { router, Stack } from 'expo-router';
+import { supabase } from '@/lib/supabase';
 
 const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -11,11 +12,23 @@ export default function SignUp() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState('');
+    const [loading, setLoading] = useState(false);
 
 
     const resetFields = () => {
         setEmail('');
         setPassword('');
+    }
+
+    async function signUpWithEmail() {
+        setLoading(true);
+        const { error } = await supabase.auth.signUp({
+            email: email,
+            password: password,
+        });
+
+        if (error) Alert.alert(error.message);
+        setLoading(false);
     }
 
     const validateInput = () => {
@@ -45,6 +58,7 @@ export default function SignUp() {
         //Save in the database
         resetFields();
     }
+
     return (
         <View style={styles.container}>
             <Stack.Screen options={{ title: "Sign up" }} />
@@ -65,7 +79,7 @@ export default function SignUp() {
             />
 
             <Text style={{ color: 'red' }}>{errors}</Text>
-            <Button text='Create account' onPress={onSubmit} />
+            <Button disabled={loading} text='Create account' onPress={signUpWithEmail} />
             <Text onPress={goToSignIn} style={styles.textBtn}>Sign in</Text>
         </View>
     )
