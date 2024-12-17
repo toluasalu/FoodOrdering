@@ -10,7 +10,7 @@
       "@components/*": ["src/components/*"],
       "@assets/*": ["assets/*"],
       "@constants/*": ["src/constants/*"]
-    }
+    },
   },
   "include": [
     "**/*.ts",

@@ -79,7 +79,7 @@ export default function SignIn() {
             />
 
             <Text style={{ color: 'red' }}>{errors}</Text>
-            <Button disabled={loading} text='Sign in' onPress={signInWithEmail} />
+            <Button disabled={loading} text={loading ? 'Signing in...' : 'Sign in'} onPress={signInWithEmail} />
             <Text onPress={createAccount} style={styles.textBtn}>Create an account</Text>
         </View>
     )

@@ -4,6 +4,7 @@ import { useContext } from 'react'
 import { CartContext } from '@/providers/CartProvider';
 import CartListItem from '@/components/CartListItem';
 import Button from '@/components/Button';
+import { Stack } from 'expo-router';
 
 
 
@@ -13,6 +14,7 @@ const CartScreen = () => {
         <View style={{
             padding: 10,
         }}>
+            <Stack.Screen options={{ presentation: 'modal' }} />
             <FlatList
                 data={items}
                 renderItem={({ item }) => <CartListItem cartItem={item} />}
